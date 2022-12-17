@@ -15,11 +15,7 @@ export default {
 
   data() {
     return {
-      assignments: [
-        { name: "finish project", complete: false, id: 1, tag: "math" },
-        { name: "read chapter 4", complete: false, id: 2, tag: "science" },
-        { name: "turn in homework", complete: false, id: 3, tag: "math" },
-      ],
+      assignments: [],
     };
   },
 
@@ -31,6 +27,13 @@ export default {
       };
     },
   },
+
+  created() {
+    fetch("http://localhost:3001/assignments")
+      .then((response) => response.json())
+      .then((assignments) => (this.assignments = assignments));
+  },
+
   methods: {
     add(name) {
       this.assignments.push({
