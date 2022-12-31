@@ -28,6 +28,14 @@
         </template>
       </ul>
     </div>
+    <div class="flex flex-col gap-4">
+      <Suspense>
+        <CityList />
+        <template #fallback>
+          <CityCardSkeleton />
+        </template>
+      </Suspense>
+    </div>
   </main>
 </template>
 
@@ -35,6 +43,8 @@
 import { ref } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
+import CityList from "../components/CityList.vue";
+import CityCardSkeleton from "../components/CityCardSkeleton.vue";
 
 const router = useRouter();
 
@@ -52,7 +62,6 @@ const previewCity = (searchResult) => {
   });
 };
 
-const mapBoxAPIKey = process.env.VUE_APP_MAPBOX_API_KEY;
 const searchQuery = ref("");
 const queryTimeout = ref(null);
 const mapBoxSearchResults = ref(null);
@@ -64,7 +73,11 @@ const getSearchResults = () => {
     if (searchQuery.value !== "") {
       try {
         const result = await axios.get(
-          `https://api.mapbox.com/geocoding/v5/mapbox.places/${searchQuery.value}.json?access_token=${mapBoxAPIKey}&types=place`
+          `https://api.mapbox.com/geocoding/v5/mapbox.places/${
+            searchQuery.value
+          }.json?access_token=${
+            import.meta.env.VITE_MAPBOX_API_KEY
+          }&types=place`
         );
         mapBoxSearchResults.value = result.data.features;
       } catch (error) {
