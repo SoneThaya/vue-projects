@@ -24,6 +24,7 @@ export default {
     app.component("ErrorMessage", ErrorMessage);
 
     defineRule("required", required);
+    defineRule("listener", required);
     defineRule("tos", required);
     defineRule("min", min);
     defineRule("max", max);
@@ -49,6 +50,7 @@ export default {
           country_excluded: `Due to restrictions, we do not accept users from this location.`,
           passwords_mismatch: `The passwords don't match.`,
           tos: `You must accept the Terms of Service.`,
+          listener: `Must select Listener or Artist`,
         };
 
         const message = messages[ctx.rule.name]
