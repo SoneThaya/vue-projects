@@ -11,12 +11,13 @@
     >
       <h1 class="text-8xl font-bold pb-2">{{ title }}</h1>
       <p class="mt-2 w-1/2 text-sm text-neutral">{{ description }}</p>
-      <button
+      <RouterLink
+        :to="`/movies/${id}`"
         class="flex items-center gap-1 px-6 py-4 rounded-md bg-green-700 w-fit mt-4 transition hover:bg-neutral-800 font-semibold"
       >
         View More
         <span><Icon icon="ic:round-play-arrow" /></span>
-      </button>
+      </RouterLink>
     </div>
   </div>
 </template>
@@ -24,9 +25,11 @@
 <script setup>
 import getImage from "../lib/getImage";
 import { Icon } from "@iconify/vue";
+import { RouterLink } from "vue-router";
 
 const { banner } = defineProps(["banner"]);
 const {
+  id,
   title,
   overview,
   backdrop_path: background,
