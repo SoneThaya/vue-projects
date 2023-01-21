@@ -11,7 +11,7 @@
             @search="onSearch"
           />
         </div>
-        <div class="left-content" v-if="isAuthenticated">
+        <div class="left-content" v-if="!isAuthenticated">
           <AuthModal :isLogin="false" />
           <AuthModal :isLogin="true" />
         </div>
