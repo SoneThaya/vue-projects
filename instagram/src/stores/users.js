@@ -1,5 +1,6 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
+import { supabase } from "../supabase";
 
 export const useUserStore = defineStore("users", () => {
   const user = ref(null);
@@ -15,7 +16,7 @@ export const useUserStore = defineStore("users", () => {
 
   const handleLogin = () => {};
 
-  const handleSignup = (credentials) => {
+  const handleSignup = async (credentials) => {
     const { email, password, username } = credentials;
 
     if (password.length < 6) {
@@ -31,6 +32,22 @@ export const useUserStore = defineStore("users", () => {
     }
 
     errorMessage.value = "";
+
+    //validate if user exists
+
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+    });
+
+    if (error) {
+      return (errorMessage.value = error.message);
+    }
+
+    await supabase.from("users").insert({
+      username,
+      email,
+    });
   };
 
   const handleLogout = () => {};

@@ -1,7 +1,7 @@
 <template>
   <div>
     <AButton type="primary" @click="showModal" class="btn">{{ title }}</AButton>
-    <AModal v-model:visible="visible" :title="title" @ok="handleOk">
+    <AModal v-model:visible="visible" :title="title" @ok.prevent="handleOk">
       <AInput
         class="input"
         v-if="!isLogin"
@@ -27,7 +27,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps, reactive } from "vue";
+import { ref, reactive } from "vue";
 import { useUserStore } from "../stores/users";
 import { storeToRefs } from "pinia";
 
