@@ -31,9 +31,17 @@ export const useUserStore = defineStore("users", () => {
       return (errorMessage.value = "Email is invalid.");
     }
 
-    errorMessage.value = "";
+    const { data: userWithUsername } = await supabase
+      .from("users")
+      .select()
+      .eq("username", username)
+      .single();
 
-    //validate if user exists
+    if (userWithUsername) {
+      return (errorMessage.value = "Username already exists!");
+    }
+
+    errorMessage.value = "";
 
     const { error } = await supabase.auth.signUp({
       email,
@@ -54,6 +62,10 @@ export const useUserStore = defineStore("users", () => {
 
   const getUser = () => {};
 
+  const clearErrorMessage = () => {
+    errorMessage.value = "";
+  };
+
   return {
     user,
     errorMessage,
@@ -61,5 +73,6 @@ export const useUserStore = defineStore("users", () => {
     handleSignup,
     handleLogout,
     getUser,
+    clearErrorMessage,
   };
 });

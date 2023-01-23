@@ -2,6 +2,17 @@
   <div>
     <AButton type="primary" @click="showModal" class="btn">{{ title }}</AButton>
     <AModal v-model:visible="visible" :title="title" @ok.prevent="handleOk">
+      <template #footer>
+        <AButton key="back" @click="handleCancel"> Cancel </AButton>
+        <AButton
+          key="submit"
+          type="primary"
+          :loading="loading"
+          @click="handleOk"
+        >
+          Submit
+        </AButton>
+      </template>
       <AInput
         class="input"
         v-if="!isLogin"
@@ -49,6 +60,11 @@ const showModal = () => {
 
 const handleOk = (e) => {
   userStore.handleSignup(userCredentials);
+};
+
+const handleCancel = () => {
+  userStore.clearErrorMessage();
+  visible.value = false;
 };
 
 const title = props.isLogin ? "Login" : "Signup";
